@@ -41,8 +41,8 @@ $rest_index = null;
 $options = getopt("i:o:", ["input:", "output:"], $rest_index);
 $remaining_args = array_slice($argv, $rest_index);
 if (!$options || $remaining_args || count($options) != 2) {
-    echo "Usage: copyToFolders [Επιλογές]\n";
-    echo "Επιλογές:\n";
+    echo "Usage: copyToFolders [Επιλογές]".PHP_EOL;
+    echo "Επιλογές:".PHP_EOL;
     echo " -i,--input 'φάκελος' - Ο φάκελος που περιέχει τα αρχεία για αντιγραφή".PHP_EOL;
     echo " -o,--output 'φάκελος' - Ο προορισμός στον οποίο περιέχονται φάκελοι στους οποίους θα αντιγραφούν".PHP_EOL;
     echo "Παρατηρήσεις: Για την αντιστοίχιση χρησιμοποιείται το ΑΦΜ που πρέπει να υπάρχει στο όνομα τόσο των αρχείων".PHP_EOL;
@@ -68,9 +68,11 @@ if ($dh = opendir($src)) {
             if (preg_match('/\d{9}/', $file, $matches)) {
                 $target = findFolder($dst, $matches[0]);
                 if ($target === false) {
-                    echo "Το αρχείο {$file} δεν έχει φάκελο για να διανεμηθεί.";
+                    echo "Το αρχείο {$file} δεν έχει φάκελο για να διανεμηθεί.".PHP_EOL;
                 } else {
-                    copy($src.'/'.$file, $target.'/'.$file);
+                    if (!copy($src.'/'.$file, $target.'/'.$file)) {
+                        echo "Σφάλμα κατά την αντιγραφή του αρχείου {$src}/{$file} στο {$target}/{$file}".PHP_EOL;
+                    }
                 }
             } else {
                 echo "Το αρχείο {$file} δεν φαίνεται να έχει 9ψήφιο ΑΦΜ!".PHP_EOL;
