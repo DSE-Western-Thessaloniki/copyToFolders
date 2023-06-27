@@ -70,6 +70,9 @@ if ($dh = opendir($src)) {
                 if ($target === false) {
                     echo "Το αρχείο {$file} δεν έχει φάκελο για να διανεμηθεί.".PHP_EOL;
                 } else {
+                    if (file_exists($target.'/'.$file)) {
+                        echo "Γίνεται αντικατάσταση του '".$target.'/'.$file."'.".PHP_EOL;
+                    }
                     if (!copy($src.'/'.$file, $target.'/'.$file)) {
                         echo "Σφάλμα κατά την αντιγραφή του αρχείου {$src}/{$file} στο {$target}/{$file}".PHP_EOL;
                     }
